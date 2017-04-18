@@ -1,0 +1,117 @@
+package omtest;
+
+import java.util.regex.Pattern;
+import java.util.concurrent.TimeUnit;
+import org.junit.*;
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+
+public class testcase {
+  private WebDriver driver;
+  private String baseUrl;
+  private boolean acceptNextAlert = true;
+  private StringBuffer verificationErrors = new StringBuffer();
+
+  @Before
+  public void setUp() throws Exception {
+	  System.setProperty("webdriver.chrome.driver","C:\\Users\\Ajay Acharya\\Desktop\\om selenium demo\\chromedriver.exe");
+	 
+	  driver = new ChromeDriver();
+    baseUrl = "http://gentle-retreat-83213.herokuapp.com/";
+    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+  }
+
+  @Test
+  public void testFinal() throws Exception {
+    driver.get(baseUrl + "/");
+    Thread.sleep(5000);
+    driver.findElement(By.linkText("Login")).click();
+    driver.findElement(By.id("email")).clear();
+    driver.findElement(By.id("email")).sendKeys("skverma@unomaha.edu");
+    driver.findElement(By.id("password")).clear();
+    driver.findElement(By.id("password")).sendKeys("unomaha");
+    Thread.sleep(5000);
+    driver.findElement(By.cssSelector("button.btn.btn-primary")).click();
+    Thread.sleep(5000);
+    driver.findElement(By.linkText("Donors")).click();
+    Thread.sleep(5000);
+    driver.findElement(By.linkText("Create Donor")).click();
+    driver.findElement(By.id("first_name")).clear();
+    driver.findElement(By.id("first_name")).sendKeys("saroj");
+    driver.findElement(By.id("last_name")).clear();
+    driver.findElement(By.id("last_name")).sendKeys("verma");
+    driver.findElement(By.id("organization")).clear();
+    driver.findElement(By.id("organization")).sendKeys("UNO");
+    driver.findElement(By.id("street_address")).clear();
+    driver.findElement(By.id("street_address")).sendKeys("7120 Jones circle");
+    driver.findElement(By.id("city")).clear();
+    driver.findElement(By.id("city")).sendKeys("Omaha");
+    new Select(driver.findElement(By.id("state"))).selectByVisibleText("Nebraska");
+    driver.findElement(By.id("zip")).clear();
+    driver.findElement(By.id("zip")).sendKeys("68106");
+    driver.findElement(By.id("email")).clear();
+    driver.findElement(By.id("email")).sendKeys("sarojverma567@gmail.com");
+    driver.findElement(By.id("phone_number")).clear();
+    driver.findElement(By.id("phone_number")).sendKeys("4587895246");
+    Thread.sleep(5000);
+    driver.findElement(By.xpath("//input[@value='Save']")).click();
+    Thread.sleep(5000);
+    driver.findElement(By.xpath("(//a[contains(text(),'View')])[5]")).click();
+    Thread.sleep(5000);
+    driver.findElement(By.linkText("Donors")).click();
+    Thread.sleep(5000);
+    driver.findElement(By.xpath("(//a[contains(text(),'Update')])[7]")).click();
+    driver.findElement(By.id("street_address")).clear();
+    driver.findElement(By.id("street_address")).sendKeys("7120 Jones circle apt 7");
+    Thread.sleep(5000);
+    driver.findElement(By.xpath("//input[@value='Update']")).click();
+    Thread.sleep(5000);
+    driver.findElement(By.xpath("(//input[@value='Delete'])[5]")).click();
+    Thread.sleep(5000);
+  }
+
+  @After
+  public void tearDown() throws Exception {
+    driver.quit();
+    String verificationErrorString = verificationErrors.toString();
+    if (!"".equals(verificationErrorString)) {
+      fail(verificationErrorString);
+    }
+  }
+
+  private boolean isElementPresent(By by) {
+    try {
+      driver.findElement(by);
+      return true;
+    } catch (NoSuchElementException e) {
+      return false;
+    }
+  }
+
+  private boolean isAlertPresent() {
+    try {
+      driver.switchTo().alert();
+      return true;
+    } catch (NoAlertPresentException e) {
+      return false;
+    }
+  }
+
+  private String closeAlertAndGetItsText() {
+    try {
+      Alert alert = driver.switchTo().alert();
+      String alertText = alert.getText();
+      if (acceptNextAlert) {
+        alert.accept();
+      } else {
+        alert.dismiss();
+      }
+      return alertText;
+    } finally {
+      acceptNextAlert = true;
+    }
+  }
+}
